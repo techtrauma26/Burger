@@ -17,10 +17,15 @@ var burger = {
         });
     },
 
-    updateOne: function(objColVals, condition, cb) {
-        orm.updateOne("burgers", objColVals, condition, function(res) {
-            cb(res);
+    // updateOne: function(objColVals, condition, cb) {
+    //     orm.updateOne("burgers", objColVals, condition, function(res) {
+    //         cb(res);
+    //     });
+    // },
+    updateOne: function(cols, vals, condition, cb) {
+        orm.updateOne("burgers", cols, vals, condition, function(res) {
+          cb(res);
         });
-    },
+      }
 };
 module.exports = burger;

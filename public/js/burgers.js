@@ -2,7 +2,6 @@
 $(function() {
     $(".change-deveoured").on("click", function(event) {
       var id = $(this).data("id");
-    //   var newSleep = $(this).data("newsleep");
   
       var burgerState = {
         devoured: true
@@ -15,14 +14,12 @@ $(function() {
       }).then(
         function() {
           console.log("changed devour to", true);
-          // Reload the page to get the updated list
           location.reload();
         }
       );
     });
   
     $(".create-form").on("submit", function(event) {
-      // Make sure to preventDefault on a submit event.
       event.preventDefault();
   
       var name =  $("[name=burger-name]").val().trim();
@@ -46,7 +43,21 @@ $(function() {
         $("[name=burger-name]").val("");
     }
 });
+$(".devourBurger").on("click", function(event) {
+  var id = $(this).data("burgerid");
+
+  var updateBurg = {
   
-   
-      
+    devoured: 1
+  };
+  $.ajax("/api/burgers/" + id, {
+    type: "PUT",
+    data: updateBurg
+  }).then(
+    function() {
+      console.log("updated id ", id);
+      location.reload();
+    }
+  );
+});   
         });
