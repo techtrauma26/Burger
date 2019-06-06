@@ -1,27 +1,88 @@
-<h1>Eat-da-Burger</h1>
 
-<ul>
-  {{#each burger}}
-    {{#unless devoured}}
-      {{> burgers/burger-block }}
-    {{/unless}}
-  {{/each}}
-</ul>
 
-  {{#each burger}}
-    {{#if devoured}}
-   <div>{{id}}. {{burger_name}}</div>
-       {{/if}}
-  {{/each}}
-</ul>
+<div class="container">
+   
+		    <h1 style="text-align:center; color:deeppink">Eat-da-Burger</h1>
 
-<h2>Enter a burger you want to eat then click submit!</h2>
-<form class="create-form">
+    <div class="column">
+        <h2>Burger Types </h2>
+        <div class="col"></div>
+        <div class="col">
+            <ul class="list-group" style="column-width: 200px">
+                {{#each burger}}
+                {{#unless devoured}}
+                <li class="list-group-item" style="column-width: 200px">
+                        {{this.id}}. {{this.burger_name}}
 
-  <div class="form-group">
-    <label for="bu">Burger Name:</label>
-    <input type="text" id="bu" name="name">
-  </div>
+                        <button type="button" data-burgerid="{{this.id}}"
+                            class="devourBurger btn btn-light">Devour</button>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
+        </div>
+        <div class="col"></div>
+    </div>
+	<h2>Recently Devoured Burgers</h2>
+    <ul class="list-group">
+        {{#each burger}}
+        {{#if devoured}}
+        <li class="list-group-item list-group-item-light" style="color:rgb(169, 169, 169);">
+                {{this.id}}. {{this.burger_name}}
+        </li>
+        {{/if}}
+        {{/each}}
+    </ul>
+    <ul >
 
-  <button type="submit">Add Burger</button>
-</form>
+
+    <h2>Add a Burger to the Menu!</h2>
+    <div>
+        <form id="addburger" class="button-size text-center">
+            <textarea type="text" name="burger" class="form-control center-block" style="width: 200px;"></textarea>
+            <button type="submit button" class="btn btn-primary text-center" style="width: 150px; height: 40px; margin-top: 20px;">Add Burger!</button>
+        </form>
+    </div>
+
+    
+
+    <script type="text/javascript">
+      $(".change-deveoured").on("click", function(event) {
+            event.preventDefault();
+            var newburger = {
+                burger_name: $("#addburger [name=burger]").val().trim(), 
+                devoured: 0 
+            };
+            console.log(newburger)
+        r.
+            $.ajax("/api/burgers", {
+                type: "POST",
+                data: newburger
+            }).then(
+                function () {
+                    console.log("added new burger");
+                   
+                    location.reload();
+                }
+            );
+        });
+    
+            $(".devourBurger").on("click", function (event) {
+         
+                var id = $(this).data("burgerid");
+                var updatedburger = {
+                    devoured: 1
+                };
+            
+                $.ajax("/api/burgers/" + id, {
+                    type: "PUT",
+                    data: updatedburger
+                }).then(
+                    function () {
+                        console.log("updated id ", id);
+                      
+                        location.reload();
+                    }
+                );
+            });
+    </script>
