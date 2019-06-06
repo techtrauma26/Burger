@@ -8,11 +8,11 @@
         <h2>Burger Types </h2>
         <div class="col"></div>
         <div class="col">
-            <ul class="list-group" style="column-width: 200px">
+            <ul class="list">
                 {{#each burger}}
                 {{#unless devoured}}
-                <li class="list-group-item" style="column-width: 200px">
-                        {{this.id}}. {{this.burger_name}}
+                <li class="list-group-item">
+                        {{this.burger_name}}
 
                         <button type="button" data-burgerid="{{this.id}}"
                             class="devourBurger btn btn-light">Devour</button>
