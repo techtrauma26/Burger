@@ -7,5 +7,5 @@ CREATE TABLE burgers (
     id INT (50) AUTO_INCREMENT NOT NULL PRIMARY KEY, 
     burger_name VARCHAR (300),
     devoured boolean DEFAULT FALSE,
-      createdAt TIMESTAMP NOT NULL Default CURRENT_TIMESTAMP, 	
+      createdAt TIMESTAMP NOT NULL Default CURRENT_TIMESTAMP	
 );
