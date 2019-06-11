@@ -1,88 +1,84 @@
+<div class="container-fluid">
 
+    <h1 style="text-align:center; color:deeppink">Eat-da-Burger</h1>
 
-<div class="container">
-   
-		    <h1 style="text-align:center; color:deeppink">Eat-da-Burger</h1>
-
-    <div class="column">
-        <h2>Burger Types </h2>
-        <div class="col"></div>
-        <div class="col">
+    <div class="row">
+        <div class="col-sm-5" style="margin-left: 100px; text-align:center; ">
+            <h2 style="margin-bottom:25px;">Menu</h2>
+            {{#each burger}}
+            {{#unless devoured}}
             <ul class="list">
-                {{#each burger}}
-                {{#unless devoured}}
-                <li class="list-group-item">
-                        {{this.burger_name}}
-
-                        <button type="button" data-burgerid="{{this.id}}"
-                            class="devourBurger btn btn-light">Devour</button>
-                </li>
-                {{/unless}}
-                {{/each}}
+                {{this.burger_name}}
+                <button type="button" data-burgerid="{{this.id}}" class="devourBurger btn btn-xs-light">Devour</button>
+                <br><br>
             </ul>
+            {{/unless}}
+            {{/each}}
         </div>
-        <div class="col"></div>
-    </div>
-	<h2>Recently Devoured Burgers</h2>
-    <ul class="list-group">
-        {{#each burger}}
-        {{#if devoured}}
-        <li class="list-group-item list-group-item-light" style="color:rgb(169, 169, 169);">
-                {{this.id}}. {{this.burger_name}}
-        </li>
-        {{/if}}
-        {{/each}}
-    </ul>
-    <ul >
+        <div class="col-sm-5" style="text-align: center;">
+            <h2 style="margin-bottom:25px;">Recently Devoured Burgers</h2>
+
+            {{#each burger}}
+            {{#if devoured}}
+            <ul class="list">
+                {{this.burger_name}}
+            </ul>
+            {{/if}}
+            {{/each}}
+        </div>
+</div>
+        <div class="row">
+            <div class="col-4" style="text-align: center">
+                <h2>Add a Burger to the Menu!</h2>
+                <div>
+                    <form id="addburger" class="button-size text-center">
+                        <textarea type="text" name="burger" class="form-control center-block"
+                            style="width: 200px;"></textarea>
+                        <button type="submit button" class="btn btn-primary text-center"
+                            style="width: 150px; height: 40px; margin-top: 20px;">Add Burger!</button>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
-    <h2>Add a Burger to the Menu!</h2>
-    <div>
-        <form id="addburger" class="button-size text-center">
-            <textarea type="text" name="burger" class="form-control center-block" style="width: 200px;"></textarea>
-            <button type="submit button" class="btn btn-primary text-center" style="width: 150px; height: 40px; margin-top: 20px;">Add Burger!</button>
-        </form>
-    </div>
+        <script type="text/javascript">
+            $(".change-deveoured").on("click", function (event) {
+                event.preventDefault();
+                var newburger = {
+                    burger_name: $("#addburger [name=burger]").val().trim(),
+                    devoured: 0
+                };
+                console.log(newburger)
+                r.
+                    $.ajax("/api/burgers", {
+                        type: "POST",
+                        data: newburger
+                    }).then(
+                        function () {
+                            console.log("added new burger");
 
-    
+                            location.reload();
+                        }
+                    );
+            });
 
-    <script type="text/javascript">
-      $(".change-deveoured").on("click", function(event) {
-            event.preventDefault();
-            var newburger = {
-                burger_name: $("#addburger [name=burger]").val().trim(), 
-                devoured: 0 
-            };
-            console.log(newburger)
-        r.
-            $.ajax("/api/burgers", {
-                type: "POST",
-                data: newburger
-            }).then(
-                function () {
-                    console.log("added new burger");
-                   
-                    location.reload();
-                }
-            );
-        });
-    
             $(".devourBurger").on("click", function (event) {
-         
+
                 var id = $(this).data("burgerid");
                 var updatedburger = {
                     devoured: 1
                 };
-            
+
                 $.ajax("/api/burgers/" + id, {
                     type: "PUT",
                     data: updatedburger
                 }).then(
                     function () {
                         console.log("updated id ", id);
-                      
+
                         location.reload();
                     }
                 );
             });
-    </script>
+        </script>
